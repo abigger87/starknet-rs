@@ -1,6 +1,6 @@
 use flate2::{write::GzEncoder, Compression};
-use rug::rand::ThreadRandState;
 use rand::{thread_rng, RngCore};
+use rug::rand::ThreadRandState;
 use starknet_core::types::{
     AbiEntry, AddTransactionResult, ContractArtifact, ContractDefinition, DeployTransactionRequest,
     EntryPointsByType, FieldElement, TransactionRequest,
