@@ -56,11 +56,10 @@ impl<P: Provider> Factory<P> {
     ) -> Result<AddTransactionResult, P::Error> {
         let mut salt_buffer = [0u8; 32];
 
-        // Create a Send + Sync safe random number generator
-        let mut rand = RandState::new();
-        salt_buffer.map(|_| rand.bits(8));
+        // Generate 31 bytes only here to avoid out of range error
         // TODO: change to cover full range
-        salt_buffer[0] = 0;
+        let mut rng = StdRng::from_rng(rand::thread_rng()).unwrap();
+        rng.fill_bytes(&mut salt_buffer[1..]);
 
         self.provider
             .add_transaction(
