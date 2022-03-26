@@ -1,6 +1,6 @@
 use flate2::{write::GzEncoder, Compression};
 use rand::{thread_rng, RngCore};
-use rug::rand::ThreadRandState;
+use rug::rand::RandState;
 use starknet_core::types::{
     AbiEntry, AddTransactionResult, ContractArtifact, ContractDefinition, DeployTransactionRequest,
     EntryPointsByType, FieldElement, TransactionRequest,
@@ -57,8 +57,7 @@ impl<P: Provider> Factory<P> {
         let mut salt_buffer = [0u8; 32];
 
         // Create a Send + Sync safe random number generator
-        let mut gen = create_generator();
-        let mut rand = ThreadRandState::new_custom(&mut gen);
+        let mut rand = RandState::new();
         salt_buffer.map(|_| rand.bits(8));
         // TODO: change to cover full range
         salt_buffer[0] = 0;
